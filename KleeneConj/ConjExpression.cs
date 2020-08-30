@@ -20,9 +20,9 @@ namespace KleeneConj
             var first = this.First.Run();
             var second = this.Second.Run();
 
-            return new RootResultTree(Test(first.Children, second.Children));
+            return new RootResultTree(Overlap(first.Children, second.Children));
 
-            static IEnumerable<IChildResultTree> Test(IEnumerable<IChildResultTree> leader, IEnumerable<IChildResultTree> follower)
+            static IEnumerable<IChildResultTree> Overlap(IEnumerable<IChildResultTree> leader, IEnumerable<IChildResultTree> follower)
             {
                 foreach (var l in leader)
                 {
@@ -37,7 +37,7 @@ namespace KleeneConj
                     {
                         foreach (var f in follower.OfType<CharacterResultTree>().Where(x => x.Value == c.Value))
                         {
-                            yield return new CharacterResultTree(f.Value, Test(c.Children, f.Children));
+                            yield return new CharacterResultTree(f.Value, Overlap(c.Children, f.Children));
                         }
                     }
                     else
