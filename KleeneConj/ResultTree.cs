@@ -3,19 +3,11 @@ using System.Collections.Generic;
 
 namespace KleeneConj
 {
-    public abstract class ResultTree
-    {
-        
-    }
+    public abstract class ResultTree { }
 
     public interface IChildResultTree { }
 
-    public interface IParentResultTree
-    {
-        IEnumerable<IChildResultTree> Children { get; }
-    }
-
-    public class RootResultTree : ResultTree, IParentResultTree
+    public class RootResultTree : ResultTree
     {
         public IEnumerable<IChildResultTree> Children { get; }
 
@@ -27,7 +19,7 @@ namespace KleeneConj
 
     public class AcceptResultTree : ResultTree, IChildResultTree { }
 
-    public class CharacterResultTree : ResultTree, IChildResultTree, IParentResultTree
+    public class CharacterResultTree : ResultTree, IChildResultTree
     {
         public char Value { get; }
 
