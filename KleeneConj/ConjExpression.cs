@@ -15,20 +15,20 @@ namespace KleeneConj
             this.Second = second;
         }
 
-        public override RootResultTree Run()
+        public override IEnumerable<ResultTree> Run()
         {
             var first = this.First.Run();
             var second = this.Second.Run();
 
-            return new RootResultTree(Overlap(first.Children, second.Children));
+            return Overlap(first, second);
 
-            static IEnumerable<IChildResultTree> Overlap(IEnumerable<IChildResultTree> leader, IEnumerable<IChildResultTree> follower)
+            static IEnumerable<ResultTree> Overlap(IEnumerable<ResultTree> leader, IEnumerable<ResultTree> follower)
             {
                 foreach (var l in leader)
                 {
-                    if (l is AcceptResultTree)
+                    if (l is null)
                     {
-                        foreach (var f in follower.OfType<AcceptResultTree>())
+                        foreach (var f in follower.Where(x => x is null))
                         {
                             yield return f;
                         }
@@ -37,7 +37,7 @@ namespace KleeneConj
                     {
                         foreach (var f in follower.OfType<CharacterResultTree>().Where(x => x.Value == c.Value))
                         {
-                            yield return new CharacterResultTree(f.Value, Overlap(c.Children, f.Children));
+                            yield return new CharacterResultTree(f.Value, Overlap(c.Next, f.Next));
                         }
                     }
                     else

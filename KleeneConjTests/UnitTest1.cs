@@ -12,13 +12,13 @@ namespace KleeneConjTests
             var expr = new CharExpression('x');
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
-                        item => Assert.IsType<AcceptResultTree>(item)
+                    Assert.Collection((item as CharacterResultTree).Next,
+                        item => Assert.Null(item)
                     );
                 }
             );
@@ -33,21 +33,21 @@ namespace KleeneConjTests
             });
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
-                        item => Assert.IsType<AcceptResultTree>(item)
+                    Assert.Collection((item as CharacterResultTree).Next,
+                        item => Assert.Null(item)
                     );
                 },
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('y', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
-                        item => Assert.IsType<AcceptResultTree>(item)
+                    Assert.Collection((item as CharacterResultTree).Next,
+                        item => Assert.Null(item)
                     );
                 }
             );
@@ -62,18 +62,18 @@ namespace KleeneConjTests
             });
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
+                    Assert.Collection((item as CharacterResultTree).Next,
                         item =>
                         {
                             Assert.IsType<CharacterResultTree>(item);
                             Assert.Equal('y', (item as CharacterResultTree).Value);
-                            Assert.Collection((item as CharacterResultTree).Children,
-                                item => Assert.IsType<AcceptResultTree>(item)
+                            Assert.Collection((item as CharacterResultTree).Next,
+                                item => Assert.Null(item)
                             );
                         }
                     );
@@ -90,15 +90,15 @@ namespace KleeneConjTests
             );
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
+                    Assert.Collection((item as CharacterResultTree).Next,
                         item =>
                         {
-                            Assert.IsType<AcceptResultTree>(item);
+                            Assert.Null(item);
                         }
                     );
                 }
@@ -114,7 +114,7 @@ namespace KleeneConjTests
             );
             var result = expr.Run();
 
-            Assert.Empty(result.Children);
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -126,15 +126,15 @@ namespace KleeneConjTests
             );
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
+                    Assert.Collection((item as CharacterResultTree).Next,
                         item =>
                         {
-                            Assert.IsType<AcceptResultTree>(item);
+                            Assert.Null(item);
                         }
                     );
                 },
@@ -142,10 +142,10 @@ namespace KleeneConjTests
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('y', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
+                    Assert.Collection((item as CharacterResultTree).Next,
                         item =>
                         {
-                            Assert.IsType<AcceptResultTree>(item);
+                            Assert.Null(item);
                         }
                     );
                 }
@@ -164,20 +164,20 @@ namespace KleeneConjTests
             );
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Children,
+                    Assert.Collection((item as CharacterResultTree).Next,
                         item =>
                         {
                             Assert.IsType<CharacterResultTree>(item);
                             Assert.Equal('x', (item as CharacterResultTree).Value);
-                            Assert.Collection((item as CharacterResultTree).Children,
+                            Assert.Collection((item as CharacterResultTree).Next,
                                 item =>
                                 {
-                                    Assert.IsType<AcceptResultTree>(item);
+                                    Assert.Null(item);
                                 }
                             );
                         }
@@ -198,12 +198,12 @@ namespace KleeneConjTests
             );
             var result = expr.Run();
 
-            Assert.Collection(result.Children,
+            Assert.Collection(result,
                 item =>
                 {
                     Assert.IsType<CharacterResultTree>(item);
                     Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Empty((item as CharacterResultTree).Children);
+                    Assert.Empty((item as CharacterResultTree).Next);
                 }
             );
         }

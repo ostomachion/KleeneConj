@@ -12,9 +12,9 @@ namespace KleeneConj
             Value = value;
         }
 
-        public override RootResultTree Run()
+        public override IEnumerable<ResultTree> Run()
         {
-            return new RootResultTree(EnumerableExt.Yield(new CharacterResultTree(this.Value, EnumerableExt.Yield(new AcceptResultTree()))));
+            yield return new CharacterResultTree(this.Value);
         }
     }
 }

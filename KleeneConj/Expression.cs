@@ -5,6 +5,6 @@ namespace KleeneConj
 {
     public abstract class Expression
     {
-        public abstract RootResultTree Run();
+        public abstract IEnumerable<ResultTree> Run();
     }
 }

@@ -5,30 +5,22 @@ namespace KleeneConj
 {
     public abstract class ResultTree { }
 
-    public interface IChildResultTree { }
-
-    public class RootResultTree : ResultTree
-    {
-        public IEnumerable<IChildResultTree> Children { get; }
-
-        public RootResultTree(IEnumerable<IChildResultTree> children)
-        {
-            Children = children;
-        }
-    }
-
-    public class AcceptResultTree : ResultTree, IChildResultTree { }
-
-    public class CharacterResultTree : ResultTree, IChildResultTree
+    public class CharacterResultTree : ResultTree
     {
         public char Value { get; }
 
-        public IEnumerable<IChildResultTree> Children { get; }
+        public IEnumerable<ResultTree> Next { get; }
 
-        public CharacterResultTree(char value, IEnumerable<IChildResultTree> children)
+        public CharacterResultTree(char value)
         {
             this.Value = value;
-            this.Children = children;
+            this.Next = EnumerableExt.Yield<ResultTree>(null);
+        }
+
+        public CharacterResultTree(char value, IEnumerable<ResultTree> next)
+        {
+            this.Value = value;
+            this.Next = next;
         }
     }
 }

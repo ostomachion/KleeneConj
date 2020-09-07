@@ -13,30 +13,30 @@ namespace KleeneConj
             Value = value;
         }
 
-        public override RootResultTree Run()
+        public override IEnumerable<ResultTree> Run()
         {
             if (this.Value.Any())
             {
                 var head = this.Value.First().Run();
                 var tail = new GroupExpression(this.Value.Skip(1)).Run();
 
-                return new RootResultTree(head.Children.SelectMany(child => concat(child, tail)));
+                return head.SelectMany(child => concat(child, tail));
             }
             else
             {
-                return new RootResultTree(EnumerableExt.Yield(new AcceptResultTree()));
+                return EnumerableExt.Yield<ResultTree>(null);
             }
 
-            static IEnumerable<IChildResultTree> concat(IChildResultTree head, RootResultTree tail)
+            static IEnumerable<ResultTree> concat(ResultTree head, IEnumerable<ResultTree> tail)
             {
-                if (head is AcceptResultTree)
+                if (head is null)
                 {
-                    return tail.Children;
+                    return tail;
                 }
                 else if (head is CharacterResultTree c)
                 {
                     return EnumerableExt.Yield(new CharacterResultTree(c.Value,
-                        c.Children.SelectMany(x => concat(x, tail))));
+                        c.Next.SelectMany(x => concat(x, tail))));
                 }
                 else
                 {
