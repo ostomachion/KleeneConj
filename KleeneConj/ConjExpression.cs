@@ -33,11 +33,11 @@ namespace KleeneConj
                             yield return f;
                         }
                     }
-                    else if (l is CharacterResultTree c)
+                    else if (l is StructureResultTree c)
                     {
-                        foreach (var f in follower.OfType<CharacterResultTree>().Where(x => x.Value == c.Value))
+                        foreach (var f in follower.OfType<StructureResultTree>().Where(x => x.Name == c.Name))
                         {
-                            yield return new CharacterResultTree(f.Value, Overlap(c.Next, f.Next));
+                            yield return new StructureResultTree(f.Name, Overlap(c.Next, f.Next));
                         }
                     }
                     else

@@ -9,15 +9,15 @@ namespace KleeneConjTests
         [Fact]
         public void CharTest()
         {
-            var expr = new CharExpression('x');
+            var expr = new StructureExpression("foo");
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item => Assert.Null(item)
                     );
                 }
@@ -28,25 +28,25 @@ namespace KleeneConjTests
         public void AltTest()
         {
             var expr = new AltExpression(new [] {
-                new CharExpression('x'),
-                new CharExpression('y')
+                new StructureExpression("foo"),
+                new StructureExpression("bar")
             });
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item => Assert.Null(item)
                     );
                 },
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('y', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("bar", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item => Assert.Null(item)
                     );
                 }
@@ -57,22 +57,22 @@ namespace KleeneConjTests
         public void GroupTest()
         {
             var expr = new GroupExpression(new [] {
-                new CharExpression('x'),
-                new CharExpression('y')
+                new StructureExpression("foo"),
+                new StructureExpression("bar")
             });
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item =>
                         {
-                            Assert.IsType<CharacterResultTree>(item);
-                            Assert.Equal('y', (item as CharacterResultTree).Value);
-                            Assert.Collection((item as CharacterResultTree).Next,
+                            Assert.IsType<StructureResultTree>(item);
+                            Assert.Equal("bar", (item as StructureResultTree).Name);
+                            Assert.Collection((item as StructureResultTree).Next,
                                 item => Assert.Null(item)
                             );
                         }
@@ -85,17 +85,17 @@ namespace KleeneConjTests
         public void ConjTest1()
         {
             var expr = new ConjExpression(
-                new CharExpression('x'),
-                new CharExpression('x')
+                new StructureExpression("foo"),
+                new StructureExpression("foo")
             );
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item =>
                         {
                             Assert.Null(item);
@@ -109,8 +109,8 @@ namespace KleeneConjTests
         public void ConjTest2()
         {
             var expr = new ConjExpression(
-                new CharExpression('x'),
-                new CharExpression('y')
+                new StructureExpression("foo"),
+                new StructureExpression("bar")
             );
             var result = expr.Run();
 
@@ -121,17 +121,17 @@ namespace KleeneConjTests
         public void ConjTest3()
         {
             var expr = new ConjExpression(
-                new AltExpression(new [] { new CharExpression('x'), new CharExpression('y') }),
-                new AltExpression(new [] { new CharExpression('y'), new CharExpression('x') })
+                new AltExpression(new [] { new StructureExpression("foo"), new StructureExpression("bar") }),
+                new AltExpression(new [] { new StructureExpression("bar"), new StructureExpression("foo") })
             );
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item =>
                         {
                             Assert.Null(item);
@@ -140,9 +140,9 @@ namespace KleeneConjTests
                 },
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('y', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("bar", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item =>
                         {
                             Assert.Null(item);
@@ -157,24 +157,24 @@ namespace KleeneConjTests
         {
             var expr = new ConjExpression(
                 new GroupExpression(new [] {
-                    new AltExpression(new [] { new CharExpression('x'), new CharExpression('y') }),
-                    new AltExpression(new [] { new CharExpression('y'), new CharExpression('x') }),
+                    new AltExpression(new [] { new StructureExpression("foo"), new StructureExpression("bar") }),
+                    new AltExpression(new [] { new StructureExpression("bar"), new StructureExpression("foo") }),
                 }),
-                new GroupExpression(new [] { new CharExpression('x'), new CharExpression('x') })
+                new GroupExpression(new [] { new StructureExpression("foo"), new StructureExpression("foo") })
             );
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Collection((item as CharacterResultTree).Next,
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Collection((item as StructureResultTree).Next,
                         item =>
                         {
-                            Assert.IsType<CharacterResultTree>(item);
-                            Assert.Equal('x', (item as CharacterResultTree).Value);
-                            Assert.Collection((item as CharacterResultTree).Next,
+                            Assert.IsType<StructureResultTree>(item);
+                            Assert.Equal("foo", (item as StructureResultTree).Name);
+                            Assert.Collection((item as StructureResultTree).Next,
                                 item =>
                                 {
                                     Assert.Null(item);
@@ -191,19 +191,19 @@ namespace KleeneConjTests
         {
             var expr = new ConjExpression(
                 new GroupExpression(new [] {
-                    new AltExpression(new [] { new CharExpression('x'), new CharExpression('y') }),
-                    new AltExpression(new [] { new CharExpression('y'), new CharExpression('x') }),
+                    new AltExpression(new [] { new StructureExpression("foo"), new StructureExpression("bar") }),
+                    new AltExpression(new [] { new StructureExpression("bar"), new StructureExpression("foo") }),
                 }),
-                new GroupExpression(new [] { new CharExpression('x') })
+                new GroupExpression(new [] { new StructureExpression("foo") })
             );
             var result = expr.Run();
 
             Assert.Collection(result,
                 item =>
                 {
-                    Assert.IsType<CharacterResultTree>(item);
-                    Assert.Equal('x', (item as CharacterResultTree).Value);
-                    Assert.Empty((item as CharacterResultTree).Next);
+                    Assert.IsType<StructureResultTree>(item);
+                    Assert.Equal("foo", (item as StructureResultTree).Name);
+                    Assert.Empty((item as StructureResultTree).Next);
                 }
             );
         }

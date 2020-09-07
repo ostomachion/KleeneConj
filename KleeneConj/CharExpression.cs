@@ -3,18 +3,18 @@ using System.Linq;
 
 namespace KleeneConj
 {
-    public class CharExpression : Expression
+    public class StructureExpression : Expression
     {
-        public char Value { get; }
+        public string Name { get; }
 
-        public CharExpression(char value)
+        public StructureExpression(string name)
         {
-            Value = value;
+            Name = name;
         }
 
         public override IEnumerable<ResultTree> Run()
         {
-            yield return new CharacterResultTree(this.Value);
+            yield return new StructureResultTree(this.Name);
         }
     }
 }

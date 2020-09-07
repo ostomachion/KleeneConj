@@ -5,21 +5,21 @@ namespace KleeneConj
 {
     public abstract class ResultTree { }
 
-    public class CharacterResultTree : ResultTree
+    public class StructureResultTree : ResultTree
     {
-        public char Value { get; }
+        public string Name { get; }
 
         public IEnumerable<ResultTree> Next { get; }
 
-        public CharacterResultTree(char value)
+        public StructureResultTree(string name)
         {
-            this.Value = value;
+            this.Name = name;
             this.Next = EnumerableExt.Yield<ResultTree>(null);
         }
 
-        public CharacterResultTree(char value, IEnumerable<ResultTree> next)
+        public StructureResultTree(string name, IEnumerable<ResultTree> next)
         {
-            this.Value = value;
+            this.Name = name;
             this.Next = next;
         }
     }

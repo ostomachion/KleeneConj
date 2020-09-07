@@ -33,9 +33,9 @@ namespace KleeneConj
                 {
                     return tail;
                 }
-                else if (head is CharacterResultTree c)
+                else if (head is StructureResultTree c)
                 {
-                    return EnumerableExt.Yield(new CharacterResultTree(c.Value,
+                    return EnumerableExt.Yield(new StructureResultTree(c.Name,
                         c.Next.SelectMany(x => concat(x, tail))));
                 }
                 else
