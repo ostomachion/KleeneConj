@@ -37,7 +37,7 @@ namespace KleeneConj
                     {
                         foreach (var f in follower.OfType<StructureResultTree>().Where(x => x.Name == c.Name))
                         {
-                            yield return new StructureResultTree(f.Name, Overlap(c.Next, f.Next));
+                            yield return new StructureResultTree(f.Name, Overlap(c.FirstChild, f.FirstChild), Overlap(c.NextSibling, f.NextSibling));
                         }
                     }
                     else

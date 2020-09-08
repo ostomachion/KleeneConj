@@ -9,18 +9,15 @@ namespace KleeneConj
     {
         public string Name { get; }
 
-        public IEnumerable<ResultTree> Next { get; }
+        public IEnumerable<ResultTree> FirstChild { get; }
 
-        public StructureResultTree(string name)
+        public IEnumerable<ResultTree> NextSibling { get; }
+
+        public StructureResultTree(string name, IEnumerable<ResultTree> firstChild, IEnumerable<ResultTree> nextSibling)
         {
             this.Name = name;
-            this.Next = EnumerableExt.Yield<ResultTree>(null);
-        }
-
-        public StructureResultTree(string name, IEnumerable<ResultTree> next)
-        {
-            this.Name = name;
-            this.Next = next;
+            this.NextSibling = nextSibling;
+            this.FirstChild = firstChild;
         }
     }
 }

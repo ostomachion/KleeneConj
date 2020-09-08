@@ -6,6 +6,8 @@ namespace KleeneConj
 {
     public class GroupExpression : Expression
     {
+        public static readonly GroupExpression Empty = new GroupExpression(Enumerable.Empty<Expression>());
+
         public IEnumerable<Expression> Value { get; }
 
         public GroupExpression(IEnumerable<Expression> value)
@@ -36,7 +38,8 @@ namespace KleeneConj
                 else if (head is StructureResultTree c)
                 {
                     return EnumerableExt.Yield(new StructureResultTree(c.Name,
-                        c.Next.SelectMany(x => concat(x, tail))));
+                        c.FirstChild,
+                        c.NextSibling.SelectMany(x => concat(x, tail))));
                 }
                 else
                 {
